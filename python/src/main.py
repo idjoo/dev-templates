@@ -8,7 +8,8 @@ from fastapi.responses import JSONResponse, RedirectResponse
 from fastapi_pagination import add_pagination
 from starlette.exceptions import HTTPException as StarletteHTTPException
 
-from src.dependencies import Config, Environment
+from src.dependencies import Environment
+from src.dependencies.config import Config, get_config
 from src.routers import HealthRouter, SampleRouter
 from src.schemas import Response
 
@@ -23,7 +24,7 @@ async def lifespan(app: FastAPI):
     yield
 
 
-config: Config = Config()
+config: Config = get_config()
 
 
 title = "Service Name - Swagger UI"  # TODO: service name

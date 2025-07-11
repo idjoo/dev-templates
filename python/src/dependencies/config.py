@@ -84,13 +84,12 @@ class BaseConfig(Settings):
     database: Database = Database()
 
 
-async def init():
-    async with aiofiles.open("config.schema.json", "w") as file:
-        json.dump(BaseConfig.model_json_schema(), file, indent=2)
-
-
-async def get_config() -> BaseConfig:
+async def aget_config() -> BaseConfig:
     return BaseConfig()
 
 
-Config = Annotated[BaseConfig, Depends(get_config)]
+def get_config() -> BaseConfig:
+    return BaseConfig()
+
+
+Config = Annotated[BaseConfig, Depends(aget_config)]

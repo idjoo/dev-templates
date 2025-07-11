@@ -17,9 +17,9 @@ from opentelemetry.trace import SpanKind
 from opentelemetry.trace.span import Span
 from opentelemetry.trace.status import StatusCode
 
-from src.dependencies import Config
+from src.dependencies.config import Config, get_config
 
-config: Config = Config()
+config: Config = get_config()
 
 
 async def init():

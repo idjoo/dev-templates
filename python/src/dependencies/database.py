@@ -10,10 +10,11 @@ from sqlalchemy.orm import sessionmaker
 from sqlmodel import SQLModel
 from sqlmodel.ext.asyncio.session import AsyncSession
 
-from src.dependencies import Config, Logger
+from src.dependencies.config import Config, get_config
+from src.dependencies.logger import Logger, get_logger
 
-config: Config = Config()
-logger: Logger = Logger(config.service)
+config: Config = get_config()
+logger: Logger = get_logger(config)
 
 
 async def create_engine() -> AsyncEngine:
