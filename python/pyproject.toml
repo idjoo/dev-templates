@@ -27,6 +27,7 @@ build-backend = "hatchling.build"
 
 [dependency-groups]
 dev = [
+  "alembic>=1.16.4",
   "coverage>=7.6.10",
   "pre-commit>=4.1.0",
   "pytest-asyncio>=0.25.3",
