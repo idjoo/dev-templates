@@ -116,5 +116,5 @@ MIT (or specify your license)
 
 ---
 
-> **Template by Devoteam** — Feel free to use, modify, and contribute!
+> **Template by Vian** — Feel free to use, modify, and contribute!
 
