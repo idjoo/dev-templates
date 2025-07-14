@@ -45,7 +45,7 @@ class SampleRepository:
 
     async def read(
         self,
-        sample: Sample,
+        id: UUID,
     ) -> Sample | None:
         try:
             result = (

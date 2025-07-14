@@ -39,7 +39,7 @@ class SampleService:
         self,
         id: UUID,
     ) -> Sample | None:
-        return await self.sample_repository.read(Sample(id=id))
+        return await self.sample_repository.read(id=id)
 
     async def update(
         self,
