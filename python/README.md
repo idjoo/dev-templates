@@ -3,6 +3,7 @@
 A scalable, production-ready FastAPI backend boilerplate using modern Python best practices and a clean architecture approach.
 
 ## Features
+
 - **FastAPI** for high-performance async APIs
 - **SQLModel** for ORM and data modeling
 - **Pydantic** for settings and validation
@@ -36,6 +37,7 @@ A scalable, production-ready FastAPI backend boilerplate using modern Python bes
 ```
 
 ## Design Patterns & Architecture
+
 - **Dependency Injection**: All core resources (config, db, logger, tracer) are injected using FastAPI's Depends system.
 - **Repository Pattern**: Data access is abstracted in `repositories/` for testability and separation of concerns.
 - **Service Layer**: Business logic is encapsulated in `services/`.
@@ -47,74 +49,70 @@ A scalable, production-ready FastAPI backend boilerplate using modern Python bes
 ## Getting Started
 
 ### 1. Clone the repository
+
 ```sh
 git clone <your-repo-url>
 cd <repo-name>
 ```
 
 ### 2. Configure your environment
-Edit `config.yaml` (or use `config.json`/`.env`) to set service name, database, and other settings.
+
+Edit `config.yaml` (or use `config.json`/`config.toml`/`.env`) to set service name, database, and other settings.
 
 ### 3. Install dependencies
+
 You can use [uv](https://github.com/astral-sh/uv) (recommended) or pip:
 
 #### Using uv
+
 ```sh
-uv pip install --system
+uv sync
 ```
 
 #### Using pip
+
 ```sh
 pip install -r requirements.txt  # or use pyproject.toml with pip >= 23.1
 ```
 
 ### 4. Run the application
-#### Local (hot-reload):
-```sh
-uvicorn src.main:app --reload
-```
 
-#### Production (via Docker):
-```sh
-docker build -t my-fastapi-app .
-docker run -p 8080:8080 my-fastapi-app
-```
+#### Locally
 
-#### With docker-compose (for local DB):
 ```sh
-docker-compose up
+uv run app
 ```
 
 ### 5. API Docs
+
 - Swagger UI: [http://localhost:8080/docs](http://localhost:8080/docs) (enabled in development)
 
-## Example Endpoints
-- `GET /health` — Health check endpoint
-- `POST /samples` — Create a sample resource
-- `GET /samples` — List samples (paginated)
-
 ## Extending the Boilerplate
+
 - Add new models in `src/models/` and schemas in `src/schemas/`
 - Implement new repositories in `src/repositories/`
 - Add business logic in `src/services/`
 - Register new routers in `src/routers/` and include them in `main.py`
 
 ## Configuration
+
 - All settings can be managed via `config.yaml`, `config.json`, `config.toml`, or environment variables.
 - See `src/dependencies/config.py` for all available options.
 
 ## Observability
+
 - Logging is set up for Google Cloud Logging (can be customized)
 - Distributed tracing via OpenTelemetry (GCP exporter by default)
 
 ## Testing & Linting
+
 - Add your tests in a `tests/` directory (not included by default)
 - Recommended tools: `pytest`, `pytest-asyncio`, `coverage`, `ruff`, `pre-commit`
 
 ## License
+
 MIT (or specify your license)
 
 ---
 
 > **Template by Vian** — Feel free to use, modify, and contribute!
-
