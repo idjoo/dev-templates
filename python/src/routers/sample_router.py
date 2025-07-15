@@ -79,7 +79,11 @@ async def read(
             detail={"code": error.code, "message": error.message},
         )
 
-    return data
+    return Response(
+        status=status.HTTP_200_OK,
+        message="Success",
+        data=data,
+    )
 
 
 @router.patch("/{id}")
@@ -90,7 +94,26 @@ async def update(
     id: UUID,
     sample: SampleUpdate,
 ) -> Response[SamplePublic]:
-    return await sample_service.update(id, sample)
+    try:
+        data = await sample_service.update(id, sample)
+    except Exception as error:
+        if not hasattr(error, "status_code"):
+            raise HTTPException(
+                status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+                detail={"code": None, "message": f"Unhandled error: {error}"},
+            )
+
+        logger.error(error, exc_info=True)
+        raise HTTPException(
+            status_code=error.status_code,
+            detail={"code": error.code, "message": error.message},
+        )
+
+    return Response(
+        status=status.HTTP_200_OK,
+        message="Success",
+        data=data,
+    )
 
 
 @router.delete(
