@@ -50,7 +50,7 @@ class SampleRepository:
         try:
             result = (
                 await self.db.exec(
-                    select(Sample).where(Sample.id == sample.id),
+                    select(Sample).where(Sample.id == id),
                 )
             ).one()
             await self.db.refresh(result)

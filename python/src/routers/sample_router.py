@@ -29,16 +29,23 @@ async def create(
     try:
         data = await sample_service.create(sample)
     except Exception as error:
+        logger.error(error, exc_info=True)
         if not hasattr(error, "status_code"):
             raise HTTPException(
                 status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
-                detail={"code": None, "message": f"Unhandled error: {error}"},
+                detail=Response(
+                    status=status.HTTP_500_INTERNAL_SERVER_ERROR,
+                    message=str(error),
+                    data=None,
+                ).model_dump(),
             )
-
-        logger.error(error, exc_info=True)
         raise HTTPException(
             status_code=error.status_code,
-            detail={"code": error.code, "message": error.message},
+            detail=Response(
+                status=error.status_code,
+                message=f"{error.code}: {error.message}",
+                data=None,
+            ).model_dump(),
         )
 
     return Response(
@@ -67,16 +74,23 @@ async def read(
     try:
         data = await sample_service.read(id)
     except Exception as error:
+        logger.error(error, exc_info=True)
         if not hasattr(error, "status_code"):
             raise HTTPException(
                 status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
-                detail={"code": None, "message": f"Unhandled error: {error}"},
+                detail=Response(
+                    status=status.HTTP_500_INTERNAL_SERVER_ERROR,
+                    message=str(error),
+                    data=None,
+                ).model_dump(),
             )
-
-        logger.error(error, exc_info=True)
         raise HTTPException(
             status_code=error.status_code,
-            detail={"code": error.code, "message": error.message},
+            detail=Response(
+                status=error.status_code,
+                message=f"{error.code}: {error.message}",
+                data=None,
+            ).model_dump(),
         )
 
     return Response(
@@ -97,33 +111,66 @@ async def update(
     try:
         data = await sample_service.update(id, sample)
     except Exception as error:
+        logger.error(error, exc_info=True)
         if not hasattr(error, "status_code"):
             raise HTTPException(
                 status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
-                detail={"code": None, "message": f"Unhandled error: {error}"},
+                detail=Response(
+                    status=status.HTTP_500_INTERNAL_SERVER_ERROR,
+                    message=str(error),
+                    data=None,
+                ).model_dump(),
             )
-
-        logger.error(error, exc_info=True)
         raise HTTPException(
             status_code=error.status_code,
-            detail={"code": error.code, "message": error.message},
+            detail=Response(
+                status=error.status_code,
+                message=f"{error.code}: {error.message}",
+                data=None,
+            ).model_dump(),
         )
 
     return Response(
         status=status.HTTP_200_OK,
-        message="Success",
+        message="Successfully updated",
         data=data,
     )
 
 
 @router.delete(
     "/{id}",
-    status_code=status.HTTP_204_NO_CONTENT,
+    status_code=status.HTTP_200_OK,
 )
 @tracer.observe
 async def delete(
     logger: Logger,
     sample_service: Annotated[SampleService, Depends()],
     id: UUID,
-) -> None:
-    return await sample_service.delete(id)
+) -> Response:
+    try:
+        await sample_service.delete(id)
+    except Exception as error:
+        logger.error(error, exc_info=True)
+        if not hasattr(error, "status_code"):
+            raise HTTPException(
+                status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+                detail=Response(
+                    status=status.HTTP_500_INTERNAL_SERVER_ERROR,
+                    message=str(error),
+                    data=None,
+                ).model_dump(),
+            )
+        raise HTTPException(
+            status_code=error.status_code,
+            detail=Response(
+                status=error.status_code,
+                message=f"{error.code}: {error.message}",
+                data=None,
+            ).model_dump(),
+        )
+
+    return Response(
+        status=status.HTTP_200_OK,
+        message="Successfully deleted",
+        data=None,
+    )
